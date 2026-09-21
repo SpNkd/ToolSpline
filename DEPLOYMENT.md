@@ -16,5 +16,6 @@
 ## 2026-09-21 — Catalog refresh
 
 - Change: catalog source replaced with 8 public MIT repositories from the SpNkd profile.
+- Change: added the new public MIT repository `SpNkd/prompt-forge`; catalog now contains 9 projects.
 - Change: refreshed visual system, hero section, project cards, responsive layout, and catalog counters.
 - Verification: local syntax/JSON checks passed before publication.

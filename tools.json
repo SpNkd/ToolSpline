@@ -1,5 +1,23 @@
 [
   {
+    "slug": "prompt-forge",
+    "name": "Prompt Forge",
+    "description": "Интерактивный конструктор проверяемых промптов, Prompt Packs и обратной связи по результатам AI.",
+    "url": "https://github.com/SpNkd/prompt-forge",
+    "useCases": ["уточнение сложной задачи", "пошаговая сборка промпта", "критика и проверка результата AI"],
+    "stars": 0,
+    "forks": 0,
+    "downloads": null,
+    "views": null,
+    "comments": null,
+    "metricsUpdatedAt": "2026-09-21T12:23:27Z",
+    "status": "ok",
+    "tags": ["prompt-engineering", "ai", "prompt-packs", "validation"],
+    "language": "JavaScript",
+    "license": "MIT",
+    "notes": "Пять шагов: идея → уточнения → черновик → критика → финальный промпт."
+  },
+  {
     "slug": "cryptpaste",
     "name": "CryptPaste",
     "description": "Сервис для безопасного обмена короткими текстами с шифрованием на стороне клиента.",
