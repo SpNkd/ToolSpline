@@ -36,6 +36,11 @@ const elements = {
   clear: document.querySelector("#clear-filters"),
   loadStatus: document.querySelector("#load-status"),
   resultCount: document.querySelector("#result-count"),
+  heroProjectCount: document.querySelector("#hero-project-count"),
+  heroLanguageCount: document.querySelector("#hero-language-count"),
+  catalogTotal: document.querySelector("#catalog-total"),
+  catalogLanguages: document.querySelector("#catalog-languages"),
+  catalogUpdated: document.querySelector("#catalog-updated"),
   results: document.querySelector("#results"),
   pagination: document.querySelector("#pagination"),
   paginationControls: document.querySelector("#pagination-controls"),
@@ -304,6 +309,7 @@ function dateValue(value) {
 
 function render() {
   const filteredTools = getFilteredTools();
+  renderCatalogStats();
   const pageCount = Math.max(1, Math.ceil(filteredTools.length / PAGE_SIZE));
   state.page = Math.min(Math.max(state.page, 1), pageCount);
   const start = (state.page - 1) * PAGE_SIZE;
@@ -319,7 +325,7 @@ function render() {
   } else if (pageTools.length === 0) {
     elements.results.append(createEmptyState("Ничего не найдено. Измените запрос или сбросьте фильтры."));
   } else {
-    pageTools.forEach((tool) => elements.results.append(createToolCard(tool)));
+    pageTools.forEach((tool, index) => elements.results.append(createToolCard(tool, start + index)));
   }
 
   elements.resultCount.textContent = isLoading || loadError
@@ -337,12 +343,17 @@ function createEmptyState(message) {
   return element;
 }
 
-function createToolCard(tool) {
+function createToolCard(tool, index) {
   const card = document.createElement("article");
   card.className = "tool-card";
 
   const heading = document.createElement("div");
   heading.className = "tool-card__heading";
+  const identity = document.createElement("div");
+  identity.className = "tool-card__identity";
+  const kicker = document.createElement("span");
+  kicker.className = "tool-card__kicker";
+  kicker.textContent = `#${String(index + 1).padStart(2, "0")} / ${tool.language || "open source"}`;
   const title = document.createElement("h3");
 
   if (tool.safeUrl) {
@@ -356,7 +367,8 @@ function createToolCard(tool) {
     title.textContent = tool.name;
   }
 
-  heading.append(title, createStatusBadge(tool.status));
+  identity.append(kicker, title);
+  heading.append(identity, createStatusBadge(tool.status));
   card.append(heading);
 
   const description = document.createElement("p");
@@ -379,6 +391,16 @@ function createToolCard(tool) {
     card.append(notes);
   }
 
+  if (tool.safeUrl) {
+    const repoLink = document.createElement("a");
+    repoLink.className = "card-link";
+    repoLink.href = tool.safeUrl;
+    repoLink.target = "_blank";
+    repoLink.rel = "noopener noreferrer";
+    repoLink.textContent = "Открыть репозиторий";
+    card.append(repoLink);
+  }
+
   const stats = document.createElement("dl");
   stats.className = "tool-card__stats";
   stats.append(
@@ -399,6 +421,27 @@ function createToolCard(tool) {
   card.append(meta);
 
   return card;
+}
+
+function renderCatalogStats() {
+  const languageCount = new Set(tools.map((tool) => tool.language).filter(Boolean)).size;
+  const latestTimestamp = tools
+    .map((tool) => tool.metricsUpdatedAt)
+    .filter(Boolean)
+    .map((value) => Date.parse(value))
+    .filter((value) => !Number.isNaN(value))
+    .sort((left, right) => right - left)[0];
+  const latestDate = latestTimestamp ? new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  }).format(new Date(latestTimestamp)) : "—";
+
+  elements.heroProjectCount.textContent = formatNumber(tools.length);
+  elements.heroLanguageCount.textContent = `${languageCount} languages`;
+  elements.catalogTotal.textContent = formatNumber(tools.length);
+  elements.catalogLanguages.textContent = formatNumber(languageCount);
+  elements.catalogUpdated.textContent = latestDate;
 }
 
 function createStatusBadge(status) {
@@ -528,11 +571,11 @@ function setLoadStatus() {
 
   if (loadWarnings.length > 0) {
     elements.loadStatus.dataset.tone = "warning";
-    elements.loadStatus.textContent = `Загружено ${tools.length}; предупреждений: ${loadWarnings.length}. ${loadWarnings[0]}`;
+    elements.loadStatus.textContent = `Загружено проектов: ${tools.length}; предупреждений: ${loadWarnings.length}. ${loadWarnings[0]}`;
     return;
   }
 
-  elements.loadStatus.textContent = `Загружено инструментов: ${tools.length}.`;
+  elements.loadStatus.textContent = `Загружено MIT-проектов: ${tools.length}.`;
 }
 
 function formatNumber(value) {

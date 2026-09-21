@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Локально searchable каталог open-source инструментов для разработчиков и вайбкодеров.">
-    <title>ToolSpline — каталог инструментов</title>
+    <meta name="theme-color" content="#101214">
+    <meta name="description" content="MIT-проекты SpNkd: инструменты для разработчиков, AI-агентов и локальной автоматизации.">
+    <title>ToolSpline — MIT projects by SpNkd</title>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="app.js" defer></script>
   </head>
@@ -12,81 +13,129 @@
     <a class="skip-link" href="#main-content">К основному содержимому</a>
 
     <header class="site-header">
-      <div class="container hero">
-        <p class="eyebrow">Open-source toolkit</p>
-        <h1>ToolSpline</h1>
-        <p class="hero__lead">Небольшой каталог инструментов для разработчиков и вайбкодеров с быстрым локальным поиском.</p>
+      <div class="container">
+        <nav class="topbar" aria-label="Основная навигация">
+          <a class="brand" href="./" aria-label="ToolSpline — на главную">
+            <span class="brand__mark" aria-hidden="true">TS</span>
+            <span class="brand__name">ToolSpline</span>
+          </a>
+          <span class="topbar__status"><span class="status-dot" aria-hidden="true"></span> curated / MIT-first</span>
+        </nav>
+
+        <div class="hero">
+          <div class="hero__copy">
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> OPEN SOURCE INDEX</p>
+            <h1>Инструменты,<br>которые <em>делают</em> больше.</h1>
+            <p class="hero__lead">Личная подборка MIT-проектов SpNkd для разработчиков, AI-агентов и тех, кто любит собирать работающие вещи.</p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="https://github.com/SpNkd" target="_blank" rel="noopener noreferrer">Профиль SpNkd <span aria-hidden="true">↗</span></a>
+              <a class="button button--ghost" href="#catalog">Смотреть каталог <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero-orbit hero-orbit--one"></div>
+            <div class="hero-orbit hero-orbit--two"></div>
+            <div class="hero-card">
+              <div class="hero-card__top"><span>LIVE INDEX</span><span class="hero-card__mit">MIT</span></div>
+              <div class="hero-card__number" id="hero-project-count">—</div>
+              <p>projects worth<br>keeping close</p>
+              <div class="hero-card__bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="hero-card__bottom"><span>SpNkd / open source</span><span id="hero-language-count">— languages</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__rail" aria-label="Сводка каталога">
+          <span><strong id="catalog-total">—</strong> MIT projects</span>
+          <span><strong id="catalog-languages">—</strong> languages</span>
+          <span><strong id="catalog-updated">—</strong> last sync</span>
+          <span class="hero__rail-spacer"></span>
+          <span class="hero__rail-note">built for curious humans</span>
+        </div>
       </div>
     </header>
 
-    <main id="main-content" class="container">
-      <section class="panel" aria-labelledby="filters-title">
-        <div class="section-heading">
+    <main id="main-content">
+      <section id="catalog" class="catalog-section container" aria-labelledby="catalog-title">
+        <div class="catalog-intro">
           <div>
-            <p class="eyebrow">Каталог</p>
-            <h2 id="filters-title">Найти инструмент</h2>
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> CURATED BY SPNKD</p>
+            <h2 id="catalog-title">Small tools.<br><em>Real leverage.</em></h2>
           </div>
-          <p class="muted">Данные загружаются из <code>tools.json</code></p>
+          <p class="catalog-intro__copy">От шифрованных заметок до RPA и инструментов для AI coding. Поиск работает локально, данные живут в одном понятном JSON-файле.</p>
         </div>
 
-        <form id="filters-form" class="filters" novalidate>
-          <div class="field field--search">
-            <label for="search-input">Поиск</label>
-            <input id="search-input" name="q" type="search" inputmode="search" autocomplete="off" placeholder="Название, описание или сценарий использования">
+        <section class="filter-panel" aria-labelledby="filters-title">
+          <div class="filter-panel__heading">
+            <div>
+              <p class="panel-kicker">FILTER THE SIGNAL</p>
+              <h3 id="filters-title">Найти свой следующий инструмент</h3>
+            </div>
+            <p id="load-status" class="status-message" role="status" aria-live="polite">Загрузка каталога…</p>
           </div>
 
-          <div class="field">
-            <label for="min-stars-input">Минимум звёзд</label>
-            <input id="min-stars-input" name="minStars" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое количество">
+          <form id="filters-form" class="filters" novalidate>
+            <div class="field field--search">
+              <label for="search-input">Поиск по каталогу</label>
+              <div class="input-wrap">
+                <span class="input-icon" aria-hidden="true">⌕</span>
+                <input id="search-input" name="q" type="search" inputmode="search" autocomplete="off" placeholder="Название, описание, use case…">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="min-stars-input">Минимум звёзд</label>
+              <input id="min-stars-input" name="minStars" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое">
+            </div>
+
+            <div class="field">
+              <label for="min-forks-input">Минимум форков</label>
+              <input id="min-forks-input" name="minForks" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое">
+            </div>
+
+            <div class="field">
+              <label for="sort-select">Сортировка</label>
+              <select id="sort-select" name="sort">
+                <option value="stars-desc">Популярные сначала</option>
+                <option value="stars-asc">Звёзды: по возрастанию</option>
+                <option value="forks-desc">Форки: сначала больше</option>
+                <option value="forks-asc">Форки: по возрастанию</option>
+                <option value="name-asc">Название: А—Я</option>
+                <option value="metricsUpdatedAt-desc">Недавно обновлённые</option>
+              </select>
+            </div>
+
+            <button id="clear-filters" class="button button--reset" type="button">Сбросить</button>
+          </form>
+        </section>
+
+        <section class="results-section" aria-labelledby="results-title">
+          <div class="results-heading">
+            <div>
+              <p class="panel-kicker">THE COLLECTION</p>
+              <h2 id="results-title" tabindex="-1">Все проекты</h2>
+            </div>
+            <p id="result-count" class="result-count" aria-live="polite"></p>
           </div>
 
-          <div class="field">
-            <label for="min-forks-input">Минимум форков</label>
-            <input id="min-forks-input" name="minForks" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое количество">
-          </div>
+          <div id="results" class="card-grid" aria-live="polite" aria-busy="true"></div>
 
-          <div class="field">
-            <label for="sort-select">Сортировка</label>
-            <select id="sort-select" name="sort">
-              <option value="stars-desc">Звёзды: сначала популярные</option>
-              <option value="stars-asc">Звёзды: по возрастанию</option>
-              <option value="forks-desc">Форки: сначала популярные</option>
-              <option value="forks-asc">Форки: по возрастанию</option>
-              <option value="name-asc">Название: А—Я</option>
-              <option value="metricsUpdatedAt-desc">Метрики: новые сначала</option>
-            </select>
-          </div>
-
-          <button id="clear-filters" class="button button--secondary" type="button">Сбросить</button>
-        </form>
-
-        <p id="load-status" class="status-message" role="status" aria-live="polite">Загрузка каталога…</p>
-      </section>
-
-      <section aria-labelledby="results-title">
-        <div class="section-heading section-heading--results">
-          <div>
-            <p class="eyebrow">Результаты</p>
-            <h2 id="results-title" tabindex="-1">Инструменты</h2>
-          </div>
-          <p id="result-count" class="result-count" aria-live="polite"></p>
-        </div>
-
-        <div id="results" class="card-grid" aria-live="polite" aria-busy="true"></div>
-
-        <nav id="pagination" class="pagination" aria-label="Пагинация каталога" hidden>
-          <div id="pagination-controls" class="pagination__controls"></div>
-        </nav>
+          <nav id="pagination" class="pagination" aria-label="Пагинация каталога" hidden>
+            <div id="pagination-controls" class="pagination__controls"></div>
+          </nav>
+        </section>
       </section>
 
       <noscript>
-        <p class="noscript-message">Для работы поиска и фильтров включите JavaScript. Сам каталог хранится в открытом файле <code>tools.json</code>.</p>
+        <p class="noscript-message container">Для работы поиска и фильтров включите JavaScript. Исходные данные находятся в открытом файле <code>tools.json</code>.</p>
       </noscript>
     </main>
 
     <footer class="site-footer">
-      <div class="container">
-        <p>ToolSpline — статический сайт без внешних библиотек и серверного runtime.</p>
+      <div class="container footer-inner">
+        <a class="brand brand--footer" href="./"><span class="brand__mark" aria-hidden="true">TS</span><span class="brand__name">ToolSpline</span></a>
+        <p>MIT projects by <a href="https://github.com/SpNkd" target="_blank" rel="noopener noreferrer">SpNkd</a> · static, local-first, no noise.</p>
       </div>
     </footer>
   </body>

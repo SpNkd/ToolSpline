@@ -12,3 +12,9 @@
 - Smoke checks: `index.html` HTTP 200, `tools.json` HTTP 200, expected title and asset references present
 - Rollback target: none; this is the initial release
 - Notes: GitHub API metrics updater is opt-in and was not run during deployment.
+
+## 2026-09-21 — Catalog refresh
+
+- Change: catalog source replaced with 8 public MIT repositories from the SpNkd profile.
+- Change: refreshed visual system, hero section, project cards, responsive layout, and catalog counters.
+- Verification: local syntax/JSON checks passed before publication.
