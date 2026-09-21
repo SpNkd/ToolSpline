@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Локально searchable каталог open-source инструментов для разработчиков и вайбкодеров.">
+    <title>ToolSpline — каталог инструментов</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">К основному содержимому</a>
+
+    <header class="site-header">
+      <div class="container hero">
+        <p class="eyebrow">Open-source toolkit</p>
+        <h1>ToolSpline</h1>
+        <p class="hero__lead">Небольшой каталог инструментов для разработчиков и вайбкодеров с быстрым локальным поиском.</p>
+      </div>
+    </header>
+
+    <main id="main-content" class="container">
+      <section class="panel" aria-labelledby="filters-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Каталог</p>
+            <h2 id="filters-title">Найти инструмент</h2>
+          </div>
+          <p class="muted">Данные загружаются из <code>tools.json</code></p>
+        </div>
+
+        <form id="filters-form" class="filters" novalidate>
+          <div class="field field--search">
+            <label for="search-input">Поиск</label>
+            <input id="search-input" name="q" type="search" inputmode="search" autocomplete="off" placeholder="Название, описание или сценарий использования">
+          </div>
+
+          <div class="field">
+            <label for="min-stars-input">Минимум звёзд</label>
+            <input id="min-stars-input" name="minStars" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое количество">
+          </div>
+
+          <div class="field">
+            <label for="min-forks-input">Минимум форков</label>
+            <input id="min-forks-input" name="minForks" type="number" min="0" step="1" inputmode="numeric" placeholder="Любое количество">
+          </div>
+
+          <div class="field">
+            <label for="sort-select">Сортировка</label>
+            <select id="sort-select" name="sort">
+              <option value="stars-desc">Звёзды: сначала популярные</option>
+              <option value="stars-asc">Звёзды: по возрастанию</option>
+              <option value="forks-desc">Форки: сначала популярные</option>
+              <option value="forks-asc">Форки: по возрастанию</option>
+              <option value="name-asc">Название: А—Я</option>
+              <option value="metricsUpdatedAt-desc">Метрики: новые сначала</option>
+            </select>
+          </div>
+
+          <button id="clear-filters" class="button button--secondary" type="button">Сбросить</button>
+        </form>
+
+        <p id="load-status" class="status-message" role="status" aria-live="polite">Загрузка каталога…</p>
+      </section>
+
+      <section aria-labelledby="results-title">
+        <div class="section-heading section-heading--results">
+          <div>
+            <p class="eyebrow">Результаты</p>
+            <h2 id="results-title" tabindex="-1">Инструменты</h2>
+          </div>
+          <p id="result-count" class="result-count" aria-live="polite"></p>
+        </div>
+
+        <div id="results" class="card-grid" aria-live="polite" aria-busy="true"></div>
+
+        <nav id="pagination" class="pagination" aria-label="Пагинация каталога" hidden>
+          <div id="pagination-controls" class="pagination__controls"></div>
+        </nav>
+      </section>
+
+      <noscript>
+        <p class="noscript-message">Для работы поиска и фильтров включите JavaScript. Сам каталог хранится в открытом файле <code>tools.json</code>.</p>
+      </noscript>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>ToolSpline — статический сайт без внешних библиотек и серверного runtime.</p>
+      </div>
+    </footer>
+  </body>
+</html>
